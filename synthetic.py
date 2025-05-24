@@ -1,8 +1,10 @@
-from faker import Faker
+
 import random
-import pandas as pd
+#import pandas as pd
 from datetime import datetime
 import uuid
+import json
+from faker import Faker
 
 fake = Faker()
 
@@ -132,11 +134,55 @@ def generate_record():
         }
     }
 
-# Generate 50 synthetic records
-records = [generate_record() for _ in range(50)]
+def generate_update_order_record(order):
+    update_order = {
+        "merchantOrderId": order["merchantOrderId"],
+        "deviceSessionId": order["deviceSessionId"],
+        "riskInquiry": {
+            "decision": random.choice(["APPROVED", "DECLINED"])
+        },
+        "transactions": [
+            {
+                "transactionId": order["transactions"][0]["merchantTransactionId"],
+                "payment": order["transactions"][0]["payment"],
+                "authorizationStatus": {
+                    "authResult": random.choice(["APPROVED", "DECLINED", "ERROR", "UNKNOWN"]),
+                    "verificationResponse": {
+                        "cvvStatus": random.choice(["MATCH", "NO_MATCH", "NOT_PROVIDED", "NOT_CHECKED", "UNKNOWN"]),
+                        "avsStatus": random.choice(["A", "N", "Y", "Z", "X", "W", "U", "S", "R"])
+                    },
+                    "processorResponse": {
+                        "code": fake.lexify(text="??"),
+                        "message": fake.sentence()
+                    }
+                }
+            }
+        ],
+        "fulfillment": [
+            {
+                "fulfillmentId": order["merchantOrderId"],
+                "status": random.choice(["PENDING", "FULFILLED", "CANCELED", "PARTIALLY_FULFILLED"]),
+                "accessUrl": fake.url(),
+                "shipping": order["fulfillment"][0]["shipping"],
+                "digitalDownloaded": random.choice([True, False]),
+                "downloadDeviceIp": order["userIp"]
+            }
+        ],
+        "updateDateTime": datetime.utcnow().isoformat() + "Z",
+        "updateReason": "Customer requested change"
+    }
+    return update_order
 
-# Convert to DataFrame for easy manipulation/export
-df = pd.DataFrame(records)
-df.to_csv('synthetic.csv', index=False)
+# Generate 50 synthetic records with alternating order and update entries
+combined_records = []
+for _ in range(50):
+    order = generate_record()
+    update = generate_update_order_record(order)
+    combined_records.append({"type": "OrderRequest", "payload": order})
+    combined_records.append({"type": "UpdateOrderRequest", "payload": update})
 
-print(df.head())
+# Save to a single file
+with open("combined_order_requests.json", "w", encoding='utf-8') as f:
+    json.dump(combined_records, f, indent=2)
+
+print("Generated 50 Orders API requests each followed by a corresponding Update Order request.")
