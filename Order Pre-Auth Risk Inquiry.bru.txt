@@ -1,0 +1,216 @@
+meta {
+  name: Order Pre-Auth Risk Inquiry
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://{{hostSubdomain}}.kount.com/commerce/v2/orders?riskInquiry=true
+  body: json
+  auth: bearer
+}
+
+params:query {
+  riskInquiry: true
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:basic {
+  username: 
+  password: 
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "merchantOrderId": "d121ea2210434ffc8a90daff9cc97e76",
+    "channel": "SPHERE",
+    "deviceSessionId": "{{KountSess}}",
+    "creationDateTime": "2019-08-24T14:15:22Z",
+    "userIp": "192.168.0.1",
+    "account": {
+      "id": "d121ea2210434ffc8a90daff9cc97e76",
+      "type": "PRO_ACCOUNT",
+      "creationDateTime": "2019-08-24T14:15:22Z",
+      "username": "johndoe1983",
+      "accountIsActive": true
+    },
+    "items": [
+      {
+        "price": "100",
+        "description": "Samsung 46\" LCD HDTV",
+        "name": "LN46B610",
+        "quantity": "1",
+        "category": "TV",
+        "subCategory": "OLED TV",
+        "isDigital": true,
+        "sku": "TSH-000-S",
+        "upc": "03600029145",
+        "brand": "LG",
+        "url": "https://www.example.com/store/tsh-000-s",
+        "imageUrl": "https://www.example.com/store/tsh-000-s/thumbnail.png",
+        "physicalAttributes": {
+          "color": "Midnight Purple",
+          "size": "XL",
+          "weight": "5 lbs.",
+          "height": "12 in.",
+          "width": "6 in.",
+          "depth": "36 cm"
+        },
+        "descriptors": [
+          "halloween",
+          "mask"
+        ],
+        "id": "d121ea2210434ffc8a90daff9cc97e76",
+        "isService": true
+      }
+    ],
+    "fulfillment": [
+      {
+        "type": "DIGITAL",
+        "shipping": {
+          "amount": "893",
+          "provider": "FEDEX",
+          "trackingNumber": "TBA056059680404",
+          "method": "EXPRESS"
+        },
+        "recipientPerson": {
+          "name": {
+            "first": "William",
+            "preferred": "Bill",
+            "family": "Andrade",
+            "middle": "Alexander",
+            "prefix": "Ms.",
+            "suffix": "III"
+          },
+          "phoneNumber": "+12081234567",
+          "emailAddress": "john.doe@example.com",
+          "address": {
+            "line1": "12345 MyStreet Ave",
+            "line2": "Suite 256",
+            "city": "Poplar Bluff",
+            "region": "CO",
+            "countryCode": "US",
+            "postalCode": "63901-0000"
+          },
+          "dateOfBirth": "string"
+        },
+        "items": [
+          {
+            "id": "d121ea2210434ffc8a90daff9cc97e76",
+            "quantity": 3
+          }
+        ],
+        "status": "PENDING",
+        "accessUrl": "https://example.com/digitalgood/1213901281290",
+        "store": {
+          "id": "d121ea2210434ffc8a90daff9cc97e76",
+          "name": "10th & Main Acme Inc.",
+          "address": {
+            "line1": "12345 MyStreet Ave",
+            "line2": "Suite 256",
+            "city": "Poplar Bluff",
+            "region": "CO",
+            "countryCode": "US",
+            "postalCode": "63901-0000"
+          }
+        },
+        "merchantFulfillmentId": "d121ea2210434ffc8a90daff9cc97e76",
+        "digitalDownloaded": true,
+        "downloadDeviceIp": "192.168.1.27"
+      }
+    ],
+    "transactions": [
+      {
+        "processor": "ADYEN",
+        "processorMerchantId": "5206080947171696",
+        "payment": {
+          "type": "CREDIT_CARD",
+          "paymentToken": "string",
+          "bin": "483312",
+          "last4": "1111"
+        },
+        "subtotal": "1000",
+        "orderTotal": "100",
+        "currency": "USD",
+        "tax": {
+          "isTaxable": true,
+          "taxableCountryCode": "US",
+          "taxAmount": "327",
+          "outOfStateTaxAmount": "54"
+        },
+        "billedPerson": {
+          "name": {
+            "first": "William",
+            "preferred": "Bill",
+            "family": "Andrade",
+            "middle": "Alexander",
+            "prefix": "Ms.",
+            "suffix": "III"
+          },
+          "phoneNumber": "+12081234567",
+          "emailAddress": "john.doe@example.com",
+          "address": {
+            "line1": "12345 MyStreet Ave",
+            "line2": "Suite 256",
+            "city": "Poplar Bluff",
+            "region": "CO",
+            "countryCode": "US",
+            "postalCode": "63901-0000"
+          },
+          "dateOfBirth": "string"
+        },
+        "merchantTransactionId": "d121ea2210434ffc8a90daff9cc97e76",
+        "items": [
+          {
+            "id": "d121ea2210434ffc8a90daff9cc97e76",
+            "quantity": 3
+          }
+        ]
+      }
+    ],
+    "promotions": [
+      {
+        "id": "BOGO10",
+        "description": "Buy one, get one 10% off",
+        "status": "accepted",
+        "statusReason": "Promotion cannot be combined.",
+        "discount": {
+          "percentage": "0.1",
+          "amount": "100",
+          "currency": "USD"
+        },
+        "credit": {
+          "creditType": "GIFT_CARD",
+          "amount": "100",
+          "currency": "USD"
+        }
+      }
+    ],
+    "loyalty": {
+      "id": "d121ea2210434ffc8a90daff9cc97e76",
+      "description": "Pizza Points",
+      "credit": {
+        "creditType": "GIFT_CARD",
+        "amount": "100",
+        "currency": "USD"
+      }
+    },
+    "customFields": {
+      "keyNumber": 42,
+      "keyBoolean": true,
+      "keyString": "value",
+      "keyDate": "2023-03-30T15:41:58Z"
+    }
+  }
+}
+
+vars:post-response {
+  mostRecentKountOrderId: res.body.order.orderId
+}

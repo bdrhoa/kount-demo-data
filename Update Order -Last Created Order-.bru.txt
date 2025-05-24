@@ -1,0 +1,67 @@
+meta {
+  name: Update Order -Last Created Order-
+  type: http
+  seq: 5
+}
+
+patch {
+  url: https://{{hostSubdomain}}.kount.com/commerce/v2/orders/{{mostRecentKountOrderId}}
+  body: json
+  auth: bearer
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:basic {
+  username: 
+  password: 
+}
+
+auth:bearer {
+  token: {{bearerToken}}
+}
+
+body:json {
+  {
+    "merchantOrderId": "d121ea2210434ffc8a90daff9cc97e76",
+    "deviceSessionId": "{{KountSess}}",
+    "riskInquiry": {
+      "decision": "APPROVED"
+    },
+    "transactions": [
+      {
+        "transactionId": "L3BB10NQ16XXL91X#0",
+        "payment": {
+          "type": "CREDIT_CARD",
+          "paymentToken": "string",
+          "bin": "483312",
+          "last4": "1111"
+        },
+        "authorizationStatus": {
+          "authResult": "APPROVED",
+          "verificationResponse": {
+            "cvvStatus": "MATCH",
+            "avsStatus": "A"
+          }
+        }
+      }
+    ],
+    "fulfillment": [
+      {
+        "fulfillmentId": "d121ea2210434ffc8a90daff9cc97e76",
+        "status": "FULFILLED",
+        "accessUrl": "https://example.com/digitalgood/1213901281290",
+        "shipping": {
+          "amount": "893",
+          "provider": "FEDEX",
+          "trackingNumber": "TBA056059680404",
+          "method": "EXPRESS"
+        },
+        "digitalDownloaded": true,
+        "downloadDeviceIp": "192.168.1.27"
+      }
+    ]
+  }
+}
